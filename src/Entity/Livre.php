@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\LivreRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LivreRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre
@@ -14,12 +15,15 @@ class Livre
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('listGenreFull')]
     private ?string $isbn = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('listGenreFull')]
     private ?string $titre = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups('listGenreFull')]
     private ?float $prix = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
@@ -32,12 +36,15 @@ class Livre
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('listGenreFull')]
     private ?Auteur $auteur = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups('listGenreFull')]
     private ?int $annee = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('listGenreFull')]
     private ?string $langue = null;
 
     public function getId(): ?int

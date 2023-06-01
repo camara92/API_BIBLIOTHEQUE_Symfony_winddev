@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\AuteurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AuteurRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AuteurRepository::class)]
 class Auteur
@@ -13,19 +14,26 @@ class Auteur
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+  
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('listGenreFull')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('listGenreFull')]
     private ?string $prenom = null;
 
     #[ORM\ManyToOne(inversedBy: 'auteurs')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('listGenreFull')]
+    
     private ?Nationalite $nationalite = null;
 
     #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Livre::class)]
+    // on ne met pas listgenrefull car il va être une référence circulaire 
+    
     private Collection $livres;
 
     public function __construct()
