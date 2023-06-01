@@ -38,7 +38,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Biblio Api' );
+            ->setTitle('BiblioApi✅Daouda' );
          
            
     }
@@ -48,10 +48,10 @@ class DashboardController extends AbstractDashboardController
     {
       
         
-        yield MenuItem::linkToCrud('Genre', 'fas fa-shopping-cart', Genre::class);
+        yield MenuItem::linkToCrud('Genre', 'fas  fa-file', Genre::class);
         yield MenuItem::linkToCrud('Nationalité', 'fas fa-list', Nationalite::class);
-        yield MenuItem::linkToCrud('Auteur', 'fas fa-tag', Auteur::class);
-        yield MenuItem::linkToCrud('Editeur', 'fas fa-truck', Editeur::class);
+        yield MenuItem::linkToCrud('Auteur', 'fas fa-user', Auteur::class);
+        yield MenuItem::linkToCrud('Editeur', 'fas fa-house-laptop', Editeur::class);
         yield MenuItem::linkToCrud('Livre', 'fas fa-desktop', Livre::class);
        
 

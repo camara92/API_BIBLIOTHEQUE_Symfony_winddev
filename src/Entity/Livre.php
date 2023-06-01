@@ -34,6 +34,12 @@ class Livre
     #[ORM\JoinColumn(nullable: false)]
     private ?Auteur $auteur = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $annee = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $langue = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,5 +115,33 @@ class Livre
         $this->auteur = $auteur;
 
         return $this;
+    }
+
+    public function getAnnee(): ?int
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(?int $annee): self
+    {
+        $this->annee = $annee;
+
+        return $this;
+    }
+
+    public function getLangue(): ?string
+    {
+        return $this->langue;
+    }
+
+    public function setLangue(?string $langue): self
+    {
+        $this->langue = $langue;
+
+        return $this;
+    }
+    public function tostring(){
+
+        return $this->titre; 
     }
 }

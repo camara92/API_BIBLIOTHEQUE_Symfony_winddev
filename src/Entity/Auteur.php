@@ -103,4 +103,10 @@ class Auteur
 
         return $this;
     }
+
+    // transformation des objets : tostring sur les entités 
+    
+    public function __toString(){
+        return $this->nom. ' '.$this->prenom; 
+    }
 }

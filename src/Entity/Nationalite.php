@@ -72,4 +72,8 @@ class Nationalite
 
         return $this;
     }
+    public function tostring(){
+
+        return $this->libelle; 
+    }
 }

@@ -72,4 +72,8 @@ class Genre
 
         return $this;
     }
+    public function tostring(){
+
+        return $this->libelle; 
+    }
 }

@@ -72,4 +72,8 @@ class Editeur
 
         return $this;
     }
+    public function tostring(){
+
+        return $this->nom. ' '.$this->nom; 
+    }
 }
