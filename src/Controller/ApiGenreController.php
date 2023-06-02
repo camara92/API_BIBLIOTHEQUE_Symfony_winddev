@@ -50,22 +50,11 @@ class ApiGenreController extends AbstractController
 
         $data = $request->getContent();
         // $genre = new Genre();
-
-        // $serializer = $serializer->deserialize($data, Genre::class, 'json', [
-        //     'object_to_populate' => $genre
-        // ]);
+        // $serializer = $serializer->deserialize($data, Genre::class, 'json', [ 'object_to_populate' => $genre ]);
         //methode 2 : 
         $genre = $serializer->deserialize($data ,Genre::class, 'json');
-       
-
         $manager->persist($genre);
         $manager->flush();
-
-       
-
-
-
-
         return new JsonResponse(
             
             'Le nouveau genre a bien été crée. Merci Daouda',
@@ -75,6 +64,43 @@ class ApiGenreController extends AbstractController
         ], true);
 
         //   ['location'=>$this->generateUrl('api/genres_show', ['id'=>$genre->getId(), UrlGeneratorInterface::ABSOLUTE_URL])];
+
+
+    }
+
+    // edit 
+    #[Route('/api/genres/{id}', name: 'api_genres_update', methods: 'PUT')]
+    public function Edit( Genre $genre,  Request $request,  SerializerInterface $serializer,  EntityManagerInterface $manager): Response
+    {
+
+        $data = $request->getContent();
+        $serializer->deserialize($data ,Genre::class, 'json', ['object_to_populate'=>$genre ]);
+        $manager->persist($genre);
+        $manager->flush();
+        return new JsonResponse(
+            
+            'Le nouveau genre a bien été modifié. Merci Daouda',
+            Response::HTTP_OK,[], true);
+
+       
+
+
+    }
+
+    // edit 
+    #[Route('/api/genres/{id}', name: 'api_genres_delete', methods: 'DELETE')]
+    public function Delete( Genre $genre,   EntityManagerInterface $manager): Response
+    {
+
+       // $data = $request->getContent();
+        $manager->remove($genre);
+        $manager->flush();
+        return new JsonResponse(
+            
+            'Le nouveau genre a bien été supprimé. Merci Daouda',
+            Response::HTTP_OK,[], false);
+
+       
 
 
     }
