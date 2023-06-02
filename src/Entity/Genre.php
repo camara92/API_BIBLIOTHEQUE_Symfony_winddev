@@ -2,13 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\GenreRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\GenreRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 #[ORM\Entity(repositoryClass: GenreRepository::class)]
+  // #[UniqueEntity('libelle')]
+  #[UniqueEntity(
+    fields: ['libelle'],
+    message: 'Il existe un genre avec le libellé {{ value }}',
+)]
 class Genre
 {
     #[ORM\Id]
@@ -20,6 +28,13 @@ class Genre
     #[ORM\Column(length: 255)]
    
     #[Groups('listGenreSimple', 'listGenreFull')]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Le libellé doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Le libellé doit contenir au plus  {{ limit }} caractères',
+    )]
+  
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'genre', targetEntity: Livre::class)]

@@ -16,6 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ApiGenreController extends AbstractController
 {
@@ -45,7 +46,7 @@ class ApiGenreController extends AbstractController
     }
 
     #[Route('/api/genres/', name: 'api_genres_create', methods: 'POST')]
-    public function CreateGenre(Request $request,  SerializerInterface $serializer,  EntityManagerInterface $manager): Response
+    public function CreateGenre(Request $request,  SerializerInterface $serializer,  EntityManagerInterface $manager, ValidatorInterface $validator): Response
     {
 
         $data = $request->getContent();
@@ -53,6 +54,13 @@ class ApiGenreController extends AbstractController
         // $serializer = $serializer->deserialize($data, Genre::class, 'json', [ 'object_to_populate' => $genre ]);
         //methode 2 : 
         $genre = $serializer->deserialize($data ,Genre::class, 'json');
+        // contrainte de validation de l'objet : 
+        $errors = $validator->validate($genre); 
+
+        if(count($errors)){
+            $errorsJson = $serializer->serialize($errors, 'json');
+            return  new JsonResponse($errorsJson, Response::HTTP_BAD_REQUEST, [], true);
+        }
         $manager->persist($genre);
         $manager->flush();
         return new JsonResponse(
@@ -70,11 +78,17 @@ class ApiGenreController extends AbstractController
 
     // edit 
     #[Route('/api/genres/{id}', name: 'api_genres_update', methods: 'PUT')]
-    public function Edit( Genre $genre,  Request $request,  SerializerInterface $serializer,  EntityManagerInterface $manager): Response
+    public function Edit( Genre $genre,  Request $request,  SerializerInterface $serializer,  EntityManagerInterface $manager, ValidatorInterface $validator): Response
     {
 
         $data = $request->getContent();
         $serializer->deserialize($data ,Genre::class, 'json', ['object_to_populate'=>$genre ]);
+        // gestion des erreurs 
+        $errors = $validator->validate($genre); 
+        if(count($errors)){
+            $errorsJson = $serializer->serialize($errors, 'json');
+            return  new JsonResponse($errorsJson, Response::HTTP_BAD_REQUEST, [], true);
+        } 
         $manager->persist($genre);
         $manager->flush();
         return new JsonResponse(
@@ -87,12 +101,12 @@ class ApiGenreController extends AbstractController
 
     }
 
-    // edit 
     #[Route('/api/genres/{id}', name: 'api_genres_delete', methods: 'DELETE')]
     public function Delete( Genre $genre,   EntityManagerInterface $manager): Response
     {
 
        // $data = $request->getContent();
+       
         $manager->remove($genre);
         $manager->flush();
         return new JsonResponse(
