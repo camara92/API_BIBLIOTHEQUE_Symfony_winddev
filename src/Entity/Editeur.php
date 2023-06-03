@@ -14,12 +14,11 @@ class Editeur
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    
+    // #[Groups('listAuteurFull','listAuteurSimple')]   
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listGenreFull')]
-    #[Groups('listAuteurFull')]
+    #[Groups('listGenreFull','listAuteurFull', 'listAuteurSimple')]
     private ?string $nom = null;
 
     #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: Livre::class)]

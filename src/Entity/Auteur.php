@@ -14,25 +14,25 @@ class Auteur
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('listAuteurFull','listAuteurSimple')]
+    #[Groups('listAuteurFull', 'listAuteurSimple')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listGenreFull','listAuteurFull','listAuteurSimple')]
+    #[Groups('listAuteurFull', 'listAuteurSimple', 'listGenreFull')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listGenreFull','listAuteurFull','listAuteurSimple')]
+    #[Groups('listAuteurFull', 'listAuteurSimple', 'listGenreFull')]
     private ?string $prenom = null;
 
     #[ORM\ManyToOne(inversedBy: 'auteurs')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups('listGenreFull','listAuteurFull','listAuteurSimple')]
+    #[Groups('listAuteurFull', 'listAuteurSimple', 'listGenreFull')]
     
     private ?Nationalite $nationalite = null;
 
     #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Livre::class)]
-    #[Groups('listAuteurFull')]
+    //#[Groups('listAuteurFull')]
     // on ne met pas listgenrefull car il va être une référence circulaire 
     
     private Collection $livres;
@@ -100,21 +100,16 @@ class Auteur
 
         return $this;
     }
-
     public function removeLivre(Livre $livre): self
     {
         if ($this->livres->removeElement($livre)) {
-            // set the owning side to null (unless already changed)
             if ($livre->getAuteur() === $this) {
                 $livre->setAuteur(null);
             }
         }
-
         return $this;
     }
-
-    // transformation des objets : tostring sur les entités 
-    
+    // transformation des objets : tostring sur les entités
     public function __toString(){
         return $this->nom. ' '.$this->prenom; 
     }

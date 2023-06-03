@@ -14,15 +14,14 @@ class Nationalite
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('listAuteurFull')]
+    #[Groups("listAuteurFull", "listAuteurSimple")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listAuteurFull')]
-    #[Groups('listAuteurSimple')]
+    #[Groups("listAuteurFull", "listAuteurSimple")]
     private ?string $libelle = null;
 
-    #[ORM\OneToMany(mappedBy: 'nationalite', targetEntity: Auteur::class)]
+    #[ORM\OneToMany(mappedBy: "nationalite", targetEntity: Auteur::class)]
     private Collection $auteurs;
 
     public function __construct()

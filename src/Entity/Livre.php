@@ -12,19 +12,19 @@ class Livre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('listAuteurFull')]
+    #[Groups('listAuteurFull', 'listAuteurSimple')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listGenreFull','listAuteurFull')]
+    #[Groups('listGenreFull','listAuteurFull', 'listAuteurSimple')]
     private ?string $isbn = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listGenreFull','listAuteurFull')]
+    #[Groups('listGenreFull','listAuteurFull', 'listAuteurSimple')]
     private ?string $titre = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups('listGenreFull','listAuteurFull')]
+    #[Groups('listGenreFull','listAuteurFull', 'listAuteurSimple')]
     private ?float $prix = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
