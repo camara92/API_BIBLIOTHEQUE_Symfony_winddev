@@ -14,24 +14,25 @@ class Auteur
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-  
+    #[Groups('listAuteurFull','listAuteurSimple')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listGenreFull')]
+    #[Groups('listGenreFull','listAuteurFull','listAuteurSimple')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listGenreFull')]
+    #[Groups('listGenreFull','listAuteurFull','listAuteurSimple')]
     private ?string $prenom = null;
 
     #[ORM\ManyToOne(inversedBy: 'auteurs')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups('listGenreFull')]
+    #[Groups('listGenreFull','listAuteurFull','listAuteurSimple')]
     
     private ?Nationalite $nationalite = null;
 
     #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Livre::class)]
+    #[Groups('listAuteurFull')]
     // on ne met pas listgenrefull car il va être une référence circulaire 
     
     private Collection $livres;

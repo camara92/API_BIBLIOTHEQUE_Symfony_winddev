@@ -12,26 +12,29 @@ class Livre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('listAuteurFull')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listGenreFull')]
+    #[Groups('listGenreFull','listAuteurFull')]
     private ?string $isbn = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('listGenreFull')]
+    #[Groups('listGenreFull','listAuteurFull')]
     private ?string $titre = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups('listGenreFull')]
+    #[Groups('listGenreFull','listAuteurFull')]
     private ?float $prix = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('listAuteurFull')]
     private ?Genre $genre = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('listGenreFull','listAuteurFull')]
     private ?Editeur $editeur = null;
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
@@ -40,11 +43,11 @@ class Livre
     private ?Auteur $auteur = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups('listGenreFull')]
+    #[Groups('listGenreFull','listAuteurFull')]
     private ?int $annee = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups('listGenreFull')]
+    #[Groups('listGenreFull','listAuteurFull')]
     private ?string $langue = null;
 
     public function getId(): ?int

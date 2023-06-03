@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\NationaliteRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\NationaliteRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NationaliteRepository::class)]
 class Nationalite
@@ -13,9 +14,12 @@ class Nationalite
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('listAuteurFull')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('listAuteurFull')]
+    #[Groups('listAuteurSimple')]
     private ?string $libelle = null;
 
     #[ORM\OneToMany(mappedBy: 'nationalite', targetEntity: Auteur::class)]
